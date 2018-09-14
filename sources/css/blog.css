@@ -1,0 +1,41 @@
+/*Blog.php*/
+html {
+  min-height: 100%;
+}
+.cat-blog {
+  margin-top: -8px;
+}
+
+.cat-main {
+  min-height: 68vh;
+}
+
+.cat-title a:hover {
+  text-decoration: none;
+}
+
+.cat-post-image {
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+.cat-login-main {
+  height: calc(100vh - 193px);
+}
+
+#Footer{
+  padding:10px;
+  text-align: center;
+}
+
+.footer_a {
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+@media (max-width: 576px) {
+  li>a.cat-nav-a {
+    padding: 10px 25%;
+  }
+}
+
