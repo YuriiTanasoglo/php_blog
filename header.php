@@ -4,9 +4,8 @@
         console.log(page);
         $(".cat-nav a[href='"+page+"']").parent().addClass('active');
     });
-
 </script>
-<div class="navbar navbar-default">
+<div class="navbar navbar-default navbar-fixed-top">
   <div class=".container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed"
@@ -25,7 +24,7 @@
     <div class="collapse navbar-collapse" id="collapse">
       <ul class="cat-nav nav navbar-nav">
         <li><a href="index.php">Home</a></li>
-        <li><a href="blog.php?p=1">Blog</a></li>
+        <li><a href="blog.php">Blog</a></li>
         <li><a href="#">About us</a></li>
         <li><a href="#">Services</a></li>
         <li><a href="#">Contact us</a></li>

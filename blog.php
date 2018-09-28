@@ -7,15 +7,9 @@ require_once('head.php');
 require_once('header.php');
 ?>
 <div class="container cat-main">
-  <div class="blog header">
-    <h1>The complete responsive CMS blog</h1>
-    <p class="lead">The complete blog using PHP by Yuriy Cat</p>
-  </div>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-9">
       <?php
-
-
       $num_of_posts = 5;
       $page = isset($_GET['p']) ? $_GET['p'] : '';
       $start = $page * $num_of_posts - $num_of_posts;
@@ -79,64 +73,71 @@ LIMIT $start, $num_of_posts
       $post_count_row = mysqli_fetch_array($post_count_execute);
       $post_count = $post_count_row['FOUND_ROWS()'];
       $page_count = ceil($post_count / $num_of_posts);
-      if ($page > $page_count || $page < 1) {
+      if ($page > $page_count) {
+        echo "Nothing was found!";
+      } elseif ($page < 1) {
         redirect_to($default_link);
       }
       while ($data_rows = mysqli_fetch_array($execute)) {
         ?>
-        <div class="caption">
-          <h1 class="cat-title">
-            <a href="post.php?id=<?php echo $data_rows['id']; ?>">
-              <?php echo htmlentities($data_rows['title']); ?>
-            </a>
-          </h1>
-        </div>
-        <div class="thumbnail cat-post-image">
-          <img class="img-responsive"
-               src="<?php echo $data_rows['image']; ?>" alt="">
-        </div>
-        <ul class="list-inline">
-          <li class="list-inline-item">Categories:
-            <?php
-            //                get the category by id of post
-            $id = $data_rows['id'];
-            $category_query = "SELECT *
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="caption">
+              <h1 class="cat-title">
+                <a href="post.php?id=<?php echo $data_rows['id']; ?>">
+                  <?php echo htmlentities($data_rows['title']); ?>
+                </a>
+              </h1>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="thumbnail cat-post-image">
+              <img class="img-responsive" src="<?php echo $data_rows['image']; ?>" alt="">
+            </div>
+            <ul class="list-inline">
+              <li class="list-inline-item">Categories:
+                <?php
+                //                get the category by id of post
+                $id = $data_rows['id'];
+                $category_query = "SELECT *
 FROM category_post
   JOIN category ON category_post.id_category = category.id
 WHERE category_post.id_post = $id";
-            $category_execute = mysqli_query($connection, $category_query);
-            while ($category_rows = mysqli_fetch_array($category_execute)) {
-              ?>
-              <a class="btn btn-primary"
-                 href="blog.php?p=0&cat=<?php echo $category_rows['name']; ?>">
-                <?php
-                $category = $category_rows['name'];
-                echo $category;
+                $category_execute = mysqli_query($connection, $category_query);
+                while ($category_rows = mysqli_fetch_array($category_execute)) {
+                  ?>
+                  <a class="btn btn-primary"
+                     href="blog.php?p=0&cat=<?php echo $category_rows['name']; ?>">
+                    <?php
+                    $category = $category_rows['name'];
+                    echo $category;
+                    ?>
+                  </a>
+                  <?php
+                }
                 ?>
-              </a>
-              <?php
-            }
-            ?>
-          </li>
-          <li class="list-inline-item navbar-right">
-            <em>
-              Published
-              on <?php echo htmlentities($data_rows['datetime']); ?>
-            </em>
-          </li>
-        </ul>
-        <p><?php
-          $post = $data_rows['post'];
-          if (strlen($post) > 150) {
-            $post = substr($post, 0, 150) . '...';
-          }
-          echo nl2br($post);
-          ?>
-        </p>
-        <a class="btn btn-primary btn-sm" role="button"
-           href="post.php?id=<?php echo $data_rows['id']; ?>">
-          Read more
-        </a>
+              </li>
+              <li class="list-inline-item pull-right">
+                <em>
+                  Published
+                  on <?php echo htmlentities($data_rows['datetime']); ?>
+                </em>
+              </li>
+            </ul>
+            <p><?php
+              $post = $data_rows['post'];
+              if (strlen($post) > 150) {
+                $post = substr($post, 0, 150) . '...';
+              }
+              echo nl2br($post);
+              ?>
+            </p>
+            <a class="btn btn-primary btn-sm" role="button"
+               href="post.php?id=<?php echo $data_rows['id']; ?>">
+              Read more
+            </a>
+          </div>
+        </div>
         <?php
       }
       ?>
@@ -171,12 +172,8 @@ WHERE category_post.id_post = $id";
         </ul>
       </nav>
     </div>
-    <div class="col-sm-offset-1 col-sm-3">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        Accusantium cupiditate excepturi
-        impedit ipsam libero odio tempora? Amet cum facilis laborum
-        libero magnam maxime numquam
-        officiis soluta temporibus voluptatibus! Dolorum.</p>
+    <div class="col-sm-3">
+      <?php require_once('panel.php') ?>
     </div>
   </div>
 </div>
